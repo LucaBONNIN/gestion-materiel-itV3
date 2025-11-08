@@ -10,4 +10,5 @@ INSERT INTO pc (modele) VALUES
     ('15 pouces'),
     ('14 pouces');
     
+
     `)
