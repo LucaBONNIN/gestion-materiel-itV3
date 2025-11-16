@@ -5,7 +5,6 @@ import { createSubscriber } from 'svelte/reactivity';
 const connection = Database('gestion-materiel-itV3.db');
 
 connection.exec(`
-PRAGMA foreign_keys = ON;
 
 -- Table des départements
 CREATE TABLE IF NOT EXISTS departments (
@@ -33,13 +32,8 @@ CREATE TABLE IF NOT EXISTS pcs (
     FOREIGN KEY (assigned_user_id) REFERENCES users(id)
 );
 
-UPDATE users SET department_id = 1   WHERE id = 2;
-UPDATE users SET assigned_pc_id = 2 WHERE id = 2;
-UPDATE pcs   SET assigned_user_id = 2 WHERE id = 2;
 
-UPDATE users SET department_id = 1   WHERE id = 1;
-UPDATE users SET assigned_pc_id = 1  WHERE id = 1;
-UPDATE pcs   SET assigned_user_id = 1 WHERE id = 1;
+
 
 
 
@@ -60,6 +54,7 @@ for (const t of tables) {
     console.log(rows);
 }
 
+
 // -------  INSERT / DELETE EXAMPLES -------
 // DELETE FROM pc WHERE modele = '15 pouces';
 // DELETE FROM pc WHERE modele = '14 pouces';
@@ -75,3 +70,12 @@ for (const t of tables) {
 // UPDATE assignment
 // SET id_user = 4
 // WHERE id = 2;
+
+// ----- User 4 est assigné au departement 4 -----
+// UPDATE users SET department_id = 4   WHERE id = 4;
+
+// ----- User 4 est assigné au pc 4 -----
+// UPDATE users SET assigned_pc_id = 4 WHERE id = 4;
+
+//----- Pc 4 est assigné à l'user 4 -----
+// UPDATE pcs   SET assigned_user_id = 4 WHERE id = 4;
