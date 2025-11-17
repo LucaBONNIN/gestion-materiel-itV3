@@ -1,6 +1,10 @@
 <script>
+
     export let data ;
     let { listPc, listUser } = data;
+    const allPc = data.allPc;
+    const allUser = data.allUser;
+    const allDepartments = data.allDepartments;
 
     let firstNameUser = "";
     let nameUser = "";
@@ -16,35 +20,20 @@
         }
     }
 
+
+
 </script>
 
 <h1>Page test</h1>
-
-{#each listPc as item}
-    <p>{item.modele}</p>
-    <form action="?/deleteitem" method="POST">
-        <input type="hidden" name="idpc" value={item.id}/>
-        <button type="submit">X</button>
-    </form>
-{/each}
+<!-- Lorsque j'ajoute un pc  -->
 <br />
 <form action="?/addpc" method="POST">
-    <input type="text" name="modele" id="modele" />
+    <input type="text" name="brand" id="brand" />
+    <input type="text" name="model" id="model" />
     <button type="submit">Ajouter</button>
 </form>
+<!-- Lorsque j'ajoute un utilisateur  -->
 <br />
-<!-- <h2>Add User</h2> -->
-<!-- <form action="?/createUserProfile" method="POST">
-    <input type="text" name="firstNameUser" id="firstNameUser" /><br>
-    <input type="text" name="nameUser" id="nameUser" /><br>
-    <input type="text" name="emailUser" id="emailUser" />
-    <button id="addUserButton" type="submit">Add user</button>
-
-    <p id="errorMessage" style="display: block">
-        Vous devez remplir tous les champs !
-    </p>
-
-</form> -->
 <form action="?/createUserProfile" method="POST" on:submit={handleSubmit}>
     <input
         type="text"
@@ -61,7 +50,7 @@
     /><br>
 
     <input
-        type="text"
+        type="email"
         name="emailUser"
         id="emailUser"
         bind:value={emailUser}
@@ -73,5 +62,32 @@
         </p>
     {/if}
 
-    <button id="addUserButton" type="submit">Add user</button>
+    <button id="addUserButton" type="submit">Validate the user</button>
 </form>
+<!-- Affichage de tous les pc -->
+<table id="pcTable" name="pcTable">
+    <thead>
+        <tr>
+            <th>Marque</th>
+            <th>Modele</th>
+            <th>utilisateur Assigné</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {#each allPc as pc}
+        <tr>
+            <td>{pc.brand}</td>
+            <td>{pc.model}</td>
+
+            <td>
+                {#if pc.assigned_user_id}
+                    {pc.first_name} {pc.name} {pc.mail}<br/>
+                {:else}
+                    <i>Non assigné</i>
+                {/if}
+            </td>
+        </tr>
+        {/each}
+    </tbody>
+</table>

@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- Table des PC
 CREATE TABLE IF NOT EXISTS pcs (
     id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    brand            TEXT NOT NULL,
     model            TEXT NOT NULL,
     assigned_user_id INTEGER UNIQUE, -- utilisateur à qui il est attribué (0 ou 1)
     FOREIGN KEY (assigned_user_id) REFERENCES users(id)
@@ -34,8 +35,21 @@ CREATE TABLE IF NOT EXISTS pcs (
 
 
 
+UPDATE pcs SET brand = 'HP' WHERE id = 2;
+UPDATE pcs SET model = 'EliteBook 840 G7' WHERE id = 2;
+
+UPDATE pcs SET brand = 'Lenovo' WHERE id = 3;
+UPDATE pcs SET model = 'ThinkPad X1 Carbon' WHERE id = 3;
+
+UPDATE pcs SET brand = 'Apple' WHERE id = 4;
+UPDATE pcs SET model = 'MacBook Pro 16' WHERE id = 4;
+
+UPDATE pcs SET brand = 'Asus' WHERE id = 5;
+UPDATE pcs SET model = 'ZenBook 14' WHERE id = 5;
 
 
+DELETE FROM pcs WHERE id = 6;
+DELETE FROM pcs WHERE id = 7;
 
 `);
 

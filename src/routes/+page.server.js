@@ -5,26 +5,35 @@ import { createSubscriber } from 'svelte/reactivity';
 const connection = Database('gestion-materiel-itV3.db');
 
 export function load(){
-    const allPc = connection.prepare("SELECT * FROM pcs").all();
-    return { listePc: allPc};
+    const allPc = connection.prepare(`
+        SELECT 
+            pcs.id,
+            pcs.brand,
+            pcs.model,
+            pcs.assigned_user_id,
+            users.first_name,
+            users.last_name,
+            users.email
+        FROM pcs
+        LEFT JOIN users ON users.id = pcs.assigned_user_id
+    `).all();
+
     const allUser = connection.prepare("SELECT * FROM users").all();
-    return { listeUser: allUser};
+    const allDepartments = connection.prepare("SELECT * FROM departments").all();
+    
+    return { allPc,allUser,allDepartments };
 };
+
+
 
 export const actions = {
     addpc: async ({ request }) => {
         console.log('pc add');
         const formulaire = await request.formData();
-        const modelePc = formulaire.get('model');
-        console.log(modelePc)
-        connection.prepare(`INSERT INTO pcs (model) VALUES (?)`).run(modelePc);
-    },
-    deleteitem: async ({ request }) => {
-        console.log('pc delete');
-        const formulaire = await request.formData();
-        const idpc = formulaire.get('idpc');
-        console.log(idpc);
-        connection.prepare(`DELETE FROM pcs WHERE id = ?`).run(idpc);
+        const brandPc = formulaire.get('brand');
+        const modelPc = formulaire.get('model');
+        console.log(modelPc)
+        connection.prepare(`INSERT INTO pcs (brand, model) VALUES (?, ?)`).run(brandPc, modelPc);
     },
     createUserProfile: async ({ request }) => {
         console.log('user create');
