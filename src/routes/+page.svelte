@@ -2,9 +2,10 @@
 
     export let data ;
     let { listPc, listUser } = data;
-    const allPc = data.allPc;
-    const allUser = data.allUser;
-    const allDepartments = data.allDepartments;
+    // const allPc = data.allPc;
+    // const allUser = data.allUser;
+    // const allDepartments = data.allDepartments;
+    const allData = data.allData;
 
     let firstNameUser = "";
     let nameUser = "";
@@ -44,8 +45,8 @@
 
     <input
         type="text"
-        name="nameUser"
-        id="nameUser"
+        name="lastNameUser"
+        id="lastNameUser"
         bind:value={nameUser}
     /><br>
 
@@ -65,7 +66,9 @@
     <button id="addUserButton" type="submit">Validate the user</button>
 </form>
 <!-- Affichage de tous les pc -->
-<table id="pcTable" name="pcTable">
+<h1>Liste des PC</h1>
+<br>
+<table id="pcTable">
     <thead>
         <tr>
             <th>Marque</th>
@@ -75,14 +78,70 @@
     </thead>
 
     <tbody>
-        {#each allPc as pc}
+        {#each allData as pc}
         <tr>
-            <td>{pc.brand}</td>
-            <td>{pc.model}</td>
+            <td>{pc.pc_brand}</td>
+            <td>{pc.pc_model}</td>
 
             <td>
                 {#if pc.assigned_user_id}
                     {pc.first_name} {pc.name} {pc.mail}<br/>
+                {:else}
+                    <i>Non assigné</i>
+                {/if}
+            </td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
+<!-- Affichage de tous les utilisateurs -->
+<h1>Liste des Utilisateurs</h1>
+<br>
+<table id="userTable">
+    <thead>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Département</th>
+            <th>Pc assigné</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each allData as user}
+        <tr>
+            <td>{user.first_name}</td>
+            <td>{user.last_name}</td>
+            <td>{user.email}</td>
+            <td>
+                {#if user.department_id}
+                    {user.department_name}<br/>
+                {:else}
+                    <i>Non assigné</i>
+                {/if}
+            </td>
+            <td>{user.assigned_pc_id}</td>
+        </tr>
+        {/each}
+    </tbody>
+</table>
+<!-- Affichage de tous les départements -->
+<h1>Liste des Départements</h1>
+<br>
+<table id="departmentTable">
+    <thead>
+        <tr>
+            <th>Nom du Département</th>
+            <th>Utilisateur(s) Assigné(s)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each allData as department}
+        <tr>
+            <td>{department.department_name}</td>
+            <td>            
+                {#if department.user_id}
+                    {department.user_id}<br/>
                 {:else}
                     <i>Non assigné</i>
                 {/if}
